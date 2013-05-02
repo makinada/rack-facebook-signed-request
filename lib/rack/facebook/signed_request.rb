@@ -1,6 +1,6 @@
 require 'openssl'
 require 'base64'
-require 'yajl'
+require 'json'
 
 #
 # Gemified and borrowed heavily from Ole Riesenberg:
@@ -70,7 +70,7 @@ module Rack
           unless signed_request_is_valid?(secret, signature, signed_params)
             return Rack::Response.new(["Invalid signed request"], 400).finish
           end
-          Yajl::Parser.new.parse(base64_url_decode(signed_params))
+          JSON.parse(base64_url_decode(signed_params))
         end
 
         def signed_request_is_valid?(secret, signature, params)
